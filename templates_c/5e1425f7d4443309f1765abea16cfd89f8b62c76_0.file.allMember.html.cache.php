@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.32, created on 2018-09-22 11:26:28
+/* Smarty version 3.1.32, created on 2018-09-22 17:15:48
   from '/Applications/XAMPP/xamppfiles/htdocs/0_htdocs/smartyWeb/allMember.html' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.32',
-  'unifunc' => 'content_5ba60ac45d30a1_59405833',
+  'unifunc' => 'content_5ba65ca4d4a4a6_68176095',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '5e1425f7d4443309f1765abea16cfd89f8b62c76' => 
     array (
       0 => '/Applications/XAMPP/xamppfiles/htdocs/0_htdocs/smartyWeb/allMember.html',
-      1 => 1537608359,
+      1 => 1537629291,
       2 => 'file',
     ),
   ),
@@ -20,8 +20,8 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5ba60ac45d30a1_59405833 (Smarty_Internal_Template $_smarty_tpl) {
-$_smarty_tpl->compiled->nocache_hash = '11631581725ba60ac459f3c7_25650874';
+function content_5ba65ca4d4a4a6_68176095 (Smarty_Internal_Template $_smarty_tpl) {
+$_smarty_tpl->compiled->nocache_hash = '297431985ba65ca4d10595_82659530';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +31,6 @@ $_smarty_tpl->compiled->nocache_hash = '11631581725ba60ac459f3c7_25650874';
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="z_css/style.css">
-  <!-- <link rel="stylesheet" href="z_css/bootstrap.min.css"> -->
   <link rel="stylesheet" href="z_css/jquery.toast.css">
   <?php echo '<script'; ?>
  src="z_js/reuseHTML.js"><?php echo '</script'; ?>
@@ -48,6 +47,9 @@ $_smarty_tpl->compiled->nocache_hash = '11631581725ba60ac459f3c7_25650874';
 
   <form action="" method="POST" name="">
     <table>
+      <?php if (empty($_smarty_tpl->tpl_vars['members']->value)) {?>
+      無資料
+      <?php } else { ?>
       <tr>
         <th>ID</th>
         <th>Name</th>
@@ -73,16 +75,17 @@ foreach ($_from as $_smarty_tpl->tpl_vars['one']->value) {
         <td id="<?php echo $_smarty_tpl->tpl_vars['one']->value['password'];?>
 "><?php echo $_smarty_tpl->tpl_vars['one']->value['password'];?>
 </td>
-        <td><a href="" style="color:red">Delete</a></td>
+        <td><input class="" type="button" onclick="deleteMem('<?php echo $_smarty_tpl->tpl_vars['one']->value['id'];?>
+')" value="Delete"></td>
       </tr>
       <?php
 }
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
+      <?php }?>
+
     </table>
   </form>
-
-  <a href="allMember.php" style="text-decoration: underline; color:#0000FF">重新整理</a>
 
   <div id="medium"></div>
 
@@ -99,6 +102,55 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
     header();
     medium();
     footer();
+
+    // ajax 儲存修改過的資料進DB
+    function deleteMem(id) {
+      let sendID = "id=" + id;
+      let httpRequest = new XMLHttpRequest();
+
+      if (!httpRequest) {
+        alert("Giving up :( Cannot create an XMLHTTP instance");
+        return false;
+      }
+      httpRequest.onreadystatechange = function () {
+        try {
+          if (this.readyState === XMLHttpRequest.DONE) {
+            //檢查 request 目前狀態， 4 為資訊交換完成
+            if (httpRequest.status === 200) {
+              //檢查伺服器傳回的 HTTP 狀態碼
+
+              alert(this.response);
+              location.reload();
+            } else {
+              alert("There was a problem with the request.");
+            }
+          }
+        } catch (e) {
+          alert("Caught Exception: " + e.description);
+        }
+      };
+
+      httpRequest.open("POST", "./allMemDelete.php", true);
+      httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      httpRequest.send(sendID);
+    }
+
+
+    // function showToast(heading, message) {
+    //   $.toast({
+    //     text: message,
+    //     heading: heading,
+    //     icon: 'success',
+    //     showHideTransition: 'fade',
+    //     allowToastClose: true,
+    //     hideAfter: 3000,
+    //     stack: 5,
+    //     position: 'top-right',
+    //     textAlign: 'left',
+    //     loader: true,
+    //     loaderBg: '#9ec600',
+    //   });
+    // }
   <?php echo '</script'; ?>
 >
 </body>
