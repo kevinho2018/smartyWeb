@@ -1,0 +1,10 @@
+body{
+    background-color: black;
+    color: lightgray;
+}
+a{
+    color: skyblue;
+}
+a:hover{
+    color: lightsalmon;
+}

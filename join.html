@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="z_css/style.css">
+  <script src="z_js/reuseHTML.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <title>Document</title>
+</head>
+
+<body>
+  <header class="site-header dark-bg" style="background-color: #2196F3;" id="navbar">
+  </header>
+  <h1>join</h1>
+  <form action="join.php" method="POST" name="joinForm">
+    <table>
+      <tr>
+        <td>ID:<input type="text" name="id" id="IDText" value="test6" onblur="checkInputText()">
+          <div id="ID_usable"></div>
+        </td>
+      </tr>
+      <tr>
+        <td>Name:<input type="text" name="name" id="nameText" value="name6"></td>
+      </tr>
+      <tr>
+        <td>Email:<input type="text" name="email" id="emailText" value="test6@gmail.com"></td>
+      </tr>
+      <tr>
+        <td>Password:<input type="password" name="pwd" id="pwdText" value="66666"></td>
+      </tr>
+    </table>
+
+    <input type="button" value="送出" onclick="check_data()">
+  </form>
+
+  <div id="medium"></div>
+
+  <footer class="site-footer" id="footer"></footer>
+
+  <script>
+    header();
+    medium();
+    footer();
+
+    function check_data() {
+      if (document.getElementById("IDText").value === "") {
+        alert("請填寫ID");
+        return;
+      } else if (document.getElementById("nameText").value === "") {
+        alert("請填寫名字");
+        return;
+      } else if (document.getElementById("emailText").value === "") {
+        alert("請填寫Email");
+        return;
+      } else if (document.getElementById("pwdText").value === "") {
+        alert("請填寫密碼");
+        return;
+      } else {
+        send();
+      }
+    }
+
+    function send() {
+      joinForm.submit();
+    }
+
+    function checkInputText() {  // 確認有輸入值以後，呼叫ajax函式
+      if (document.getElementById("IDText").value === "") {
+        alert("請填寫ID");
+      } else {
+        trigger();
+      }
+    }
+
+    // ajax check ------------------------------------
+    let IDText;
+    let sendID;
+    let httpRequest;
+
+    function trigger() {
+      IDText = document.getElementById("IDText").value;
+      sendID = "IDText=" + IDText;
+      httpRequest = new XMLHttpRequest();
+
+      if (!httpRequest) {
+        alert("Giving up :( Cannot create an XMLHTTP instance");
+        return false;
+      }
+      httpRequest.onreadystatechange = function () {
+        try {
+          if (this.readyState === XMLHttpRequest.DONE) {
+            //檢查 request 目前狀態， 4 為資訊交換完成
+            if (httpRequest.status === 200) {
+              //檢查伺服器傳回的 HTTP 狀態碼
+
+              document.getElementById("ID_usable").innerHTML = this.response;
+            } else {
+              alert("There was a problem with the request.");
+            }
+          }
+        } catch (e) {
+          alert("Caught Exception: " + e.description);
+        }
+      };
+
+      httpRequest.open("POST", "./joinAjax.php", true);
+      httpRequest.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      httpRequest.send(sendID);
+    }
+
+  </script>
+</body>
+
+</html>

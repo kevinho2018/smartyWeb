@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="z_css/style.css">
+  <script src="z_js/reuseHTML.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <title>DLog In Page</title>
+</head>
+
+<body>
+
+  <header class="site-header dark-bg" style="background-color: #2196F3;" id="navbar">
+  </header>
+  <h1>Log In Page</h1>
+
+  <form action="logInCheck.php" method="POST" name="loginForm">
+    <table>
+      <tr>
+        <td>信箱：<input type="text" id="email" name="email"></td>
+      </tr>
+      <tr>
+        <td>密碼：<input type="password" id="password" name="password"></td>
+      </tr>
+      <tr>
+        <td>
+          <input type="button" value="登入" onclick="login()">
+          <input type="button" value="註冊" onclick="location.href='join.html'">
+          <a href="" style="text-decoration: underline; color:#0000FF">忘記密碼</a>
+        </td>
+      </tr>
+    </table>
+  </form>
+
+
+  <div id="medium"></div>
+
+  <footer class="site-footer" id="footer"></footer>
+
+  <script>
+
+    header();
+    medium();
+    footer();
+
+    function login() {
+      if (document.getElementById("email").value === "") {
+        alert("請輸入信箱");
+      } else if (document.getElementById("password").value === "") {
+        alert("請輸入密碼");
+      } else {
+        loginForm.submit();
+      }
+    }
+  </script>
+
+</body>
+
+</html>
