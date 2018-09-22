@@ -1,1 +1,1 @@
-# Practicing Git
+# PHP Practice use Smarty
